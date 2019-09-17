@@ -75,5 +75,12 @@ const syncAndSeed = async() => {
 
 }
 
-syncAndSeed();
+module.exports = {
+  syncAndSeed,
+  models: {
+    Place,
+    Person,
+    Thing
+  }
+}
 

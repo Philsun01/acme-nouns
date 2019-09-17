@@ -44,13 +44,27 @@ const Thing = conn.define('thing',{
 
 const syncAndSeed = async() => {
   await conn.sync({force: true});
+
   const places = [
     {name: 'Torrance'},
     {name: 'Los Angeles'},
     {name: 'New York'}
   ];
+  const [ Torrance, Los_Angeles, New_York ] = await Promise.all( places.map(place=>Place.create(place) ) );
 
-  const [ Torrance, Los_Angeles, New_York ] = await Promise.all( places.map(place=>Place.create(place) ) )
+  const people = [
+    {name: 'Moe'},
+    {name: 'Larry'},
+    {name: 'Curly'}
+  ];
+  const [ Moe, Larry, Curly ] = await Promise.all( people.map(person=>Person.create(person) ) );
+
+  const things = [
+    {name: 'Foo'},
+    {name: 'Bar'},
+    {name: 'Bazz'}
+  ];
+  const [ Foo, Bar, Bazz ] = await Promise.all( things.map(thing=>Thing.create(thing) ) );
 
 }
 

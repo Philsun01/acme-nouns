@@ -42,6 +42,12 @@ const Thing = conn.define('thing',{
   }
 });
 
+Person.belongsTo(Place);
+Place.hasMany(Person);
+Thing.belongsTo(Person);
+Person.hasMany(Thing);
+
+
 const syncAndSeed = async() => {
   await conn.sync({force: true});
 
@@ -53,16 +59,17 @@ const syncAndSeed = async() => {
   const [ Torrance, Los_Angeles, New_York ] = await Promise.all( places.map(place=>Place.create(place) ) );
 
   const people = [
-    {name: 'Moe'},
-    {name: 'Larry'},
-    {name: 'Curly'}
+    {name: 'Moe', placeId: Torrance.id },
+    {name: 'Larry', placeId: Los_Angeles.id },
+    {name: 'Curly', placeId: New_York.id },
+    {name: 'Shep', placeId: Los_Angeles.id }
   ];
   const [ Moe, Larry, Curly ] = await Promise.all( people.map(person=>Person.create(person) ) );
 
   const things = [
-    {name: 'Foo'},
-    {name: 'Bar'},
-    {name: 'Bazz'}
+    {name: 'Foo', personId: Moe.id },
+    {name: 'Bar', personId: Larry.id },
+    {name: 'Bazz', personId: Curly.id }
   ];
   const [ Foo, Bar, Bazz ] = await Promise.all( things.map(thing=>Thing.create(thing) ) );
 
